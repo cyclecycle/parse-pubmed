@@ -35,6 +35,7 @@ class PubMedArticle(Article):
             'abstract': self.abstract(),
             'date': self.date(),
             'keywords': self.keywords(),
+            'pubtypes': self.pubtypes()
         }
 
         for key, val in self.dict.items():
@@ -63,16 +64,19 @@ class PubMedArticle(Article):
         date = {}
         for el in date_tag:
             date[el.tag] = el.text
-        string = '{day} {month} {year}' .format(
-            day=date['Day'],
-            month=date['Month'],
-            year=date['Year']
-        )
-        d = datetime.datetime.strptime(string, '%d %B %Y')
-        return d
+        return date
 
     def keywords(self):
         keywords = []
         for el in self.root.iter('Keyword'):
             keywords.append(el.text)
         return keywords
+
+    def pubtypes(self):
+        pubtypes = []
+        try:
+            for el in self.root.iter('PublicationType'):
+                pubtypes.append(el.text)
+        except IndexError as e:
+            pass
+        return pubtypes
