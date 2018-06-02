@@ -1,3 +1,5 @@
+"""Requires pip install biopython"""
+
 from Bio import Entrez, Medline
 from parse_pubmed import PubMedArticleSet, PubMedArticle
 from parse_pmc import PMCArticleSet, PMCArticle
